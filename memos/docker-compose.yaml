@@ -1,0 +1,9 @@
+services:
+  memos:
+    image: neosmemo/memos:stable
+    container_name: memos
+    ports:
+      - 5230:5230
+    volumes:
+      - /Volumes/ext_2tb/.memos/:/var/opt/memos
+    restart: unless-stopped
