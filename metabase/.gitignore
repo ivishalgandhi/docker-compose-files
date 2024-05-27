@@ -1,0 +1,6 @@
+*.db
+*.jar
+plugins
+*.out
+
+
