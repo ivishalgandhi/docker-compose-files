@@ -7,9 +7,7 @@ services:
     ports:
       - 3000:3000
     networks:
-      - mynetwork
-    volumes:
-      - /Users/vishal/Sync/work/master/database/master.db:/Users/vishal/Sync/work/master/database/master.db
+      - metabase_network
     restart: unless-stopped
     environment:
       MB_DB_TYPE: postgres
@@ -17,7 +15,7 @@ services:
       MB_DB_PORT: 5432 # Change this to the port your local PostgreSQL is running on
       MB_DB_USER: metabase
       MB_DB_PASS: 
-      MB_DB_HOST: 192.168.1.230 # Use this to connect to the host machine
+      MB_DB_HOST: 127.0.0.1 # Use this to connect to the host machine
     healthcheck:
       test: curl --fail -I http://localhost:3000/api/health || exit 1
       interval: 15s
@@ -25,5 +23,5 @@ services:
       retries: 5
 
 networks:
-  mynetwork:
-    driver: bridge
+  metabase_network:
+      driver: bridge
