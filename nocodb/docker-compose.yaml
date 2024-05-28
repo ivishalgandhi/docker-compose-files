@@ -1,0 +1,17 @@
+version: '3.9'
+services:
+  nocodb:
+    image: nocodb/nocodb:latest
+    container_name: nocodb
+    hostname: nocodb
+    ports:
+      - 8080:8080
+    networks:
+      - noco_net
+    volumes:
+      - /Users/vishal/Sync/tools/nocodb:/usr/app/data
+    restart: unless-stopped
+networks:
+  noco_net:
+    driver: bridge
+
