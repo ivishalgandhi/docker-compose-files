@@ -1,0 +1,12 @@
+$TTL    604800
+@       IN      SOA     ns1.docker.lan. admin.docker.lan. (
+                              2         ; Serial
+                         604800         ; Refresh
+                          86400         ; Retry
+                        2419200         ; Expire
+                         604800 )       ; Negative Cache TTL
+;
+@       IN      NS      ns1.docker.lan.
+ns1     IN      A       127.0.0.1
+test    IN      A       127.0.0.1
+test2   IN      A       192.168.1.1

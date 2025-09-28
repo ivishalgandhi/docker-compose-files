@@ -1,0 +1,20 @@
+services:
+  windows:
+    image: dockurr/windows
+    container_name: windows
+    environment:
+      VERSION: "11"
+      RAM_SIZE: "16G"
+      DISK_SIZE: "64G"
+    devices:
+      - /dev/kvm
+      - /dev/net/tun
+    cap_add:
+      - NET_ADMIN
+    volumes:
+      - ./data:/storage
+    ports:
+      - "8006:8006"    # Web interface
+      - "3389:3389"    # RDP
+    restart: always
+    stop_grace_period: 2m

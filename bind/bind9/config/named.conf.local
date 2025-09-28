@@ -1,0 +1,4 @@
+zone "docker.lan" {
+    type master;
+    file "/etc/bind/zones/db.docker.lan";
+};

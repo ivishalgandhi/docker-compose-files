@@ -1,0 +1,13 @@
+services:
+  app:
+    image: registry.cn-shanghai.aliyuncs.com/nocobase/nocobase:latest
+    network_mode: host
+    environment:
+      - APP_KEY=1234
+      - DB_DIALECT=postgres
+      - DB_HOST=localhost
+      - DB_DATABASE=nocobase
+      - DB_USER=nocobase
+      - DB_PASSWORD=nocobase
+    volumes:
+      - ./storage:/app/nocobase/storage

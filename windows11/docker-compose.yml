@@ -1,0 +1,22 @@
+services:
+  windows:
+    image: dockurr/windows
+    container_name: windows
+    environment:
+      VERSION: "11"
+      RAM_SIZE: "16G"
+      DISK_SIZE: "64G"
+    devices:
+      - /dev/kvm
+    cap_add:
+      - NET_ADMIN
+    volumes:
+      - ./data:/storage
+    ports:
+      - "3389:3389"   # RDP
+      - "5900:5900"   # VNC
+      - "8006:8006"   # Web interface
+      - "445:445"     # SMB
+      - "139:139"     # NetBIOS
+    restart: unless-stopped
+    stop_grace_period: 2m

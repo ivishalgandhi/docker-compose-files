@@ -1,0 +1,21 @@
+$TTL    604800
+@       IN      SOA     ns1.vishal.home. admin.vishal.home. (
+                        2025092802         ; Serial (YYYYMMDDnn)
+                         604800         ; Refresh
+                          86400         ; Retry
+                        2419200         ; Expire
+                         604800 )       ; Negative Cache TTL
+;
+@       IN      NS      ns1.vishal.home.
+ns1     IN      A       192.168.1.167
+; Examples - replace with the actual IPs used by your lab/VMs/containers
+vm1     IN      A       192.168.1.10
+vm2     IN      A       192.168.1.11
+docker1 IN      A       192.168.1.20
+; internal production host
+srv-prod-1      IN      A       192.168.1.172
+srv-prod1       IN      CNAME   srv-prod-1
+; Tailscale reachable host example (if you want to use the host's private IP via tailscale mapping)
+; host-tailscale IN  A   100.101.102.103
+win11           IN       A          100.121.198.110
+windows11       IN       CNAME      win11

@@ -1,3 +1,52 @@
+# Ignore VM data and large generated files
+windows11/data/
+
+# Node and Python defaults (safe to include common patterns)
+node_modules/
+dist/
+build/
+__pycache__/
+*.py[cod]
+*.log
+*.env
 .env
 soul/.env
 nocodb/.env
+
+# Editor/IDE and OS
+.vscode/
+.idea/
+*.iml
+.DS_Store
+
+# Docker / compose local overrides and build artifacts (optional)
+docker-compose.override.yml
+docker-compose.*.local.yml
+.docker/
+
+# Common container volume / persistent-data dirs (adjust to your project names)
+volumes/
+data/
+db_data/
+postgres-data/
+mysql-data/
+mongo_data/
+redis-data/
+esdata/
+grafana/data/
+
+# Secrets, keys and certificates
+*.key
+*.pem
+*.crt
+secrets/
+certs/
+
+# Terraform (if present)
+.terraform/
+*.tfstate
+*.tfstate.backup
+
+# Misc
+*.pid
+*.swp

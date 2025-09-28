@@ -1,0 +1,20 @@
+networks:
+  postgres_postgres_network:
+    external: true
+
+services:
+  app:
+    image: registry.cn-shanghai.aliyuncs.com/nocobase/nocobase:latest
+    networks:
+      - postgres_postgres_network
+    environment:
+      - APP_KEY=1234
+      - DB_DIALECT=postgres
+      - DB_HOST=postgres_server
+      - DB_DATABASE=nocobase
+      - DB_USER=nocobase
+      - DB_PASSWORD=nocobase
+    volumes:
+      - ./storage:/app/nocobase/storage
+    ports:
+      - "13000:80"
