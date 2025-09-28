@@ -1,0 +1,78 @@
+services:
+  teable:
+    image: ghcr.io/teableio/teable:latest
+    restart: always
+    network_mode: "host"
+    volumes:
+      - teable-data:/app/.assets:rw
+    env_file:
+      - .env
+    environment:
+      - NEXT_ENV_IMAGES_ALL_REMOTE=true
+      # Teable should reach DB/Redis via the host when using host networking
+      - POSTGRES_HOST=127.0.0.1
+      - POSTGRES_PORT=42345
+      - REDIS_HOST=127.0.0.1
+      - REDIS_PORT=6379
+      - SERVER_HOST=${SERVER_HOST}
+      - SERVER_PORT=${SERVER_PORT}
+      - PUBLIC_ORIGIN=${PUBLIC_ORIGIN}
+    # running in host network; no Docker network or depends_on required
+    healthcheck:
+      test: ['CMD', 'curl', '-f', 'http://localhost:3000/health']
+      start_period: 5s
+      interval: 5s
+      timeout: 3s
+      retries: 3
+
+  teable-proxy:
+    image: nginx:1.27-alpine
+    restart: always
+    # Bind directly to host's port 80 and proxy to the app on 127.0.0.1:3000
+    network_mode: "host"
+    depends_on:
+      - teable
+    volumes:
+      - ./nginx/conf.d:/etc/nginx/conf.d:ro
+    healthcheck:
+      test: ['CMD', 'curl', '-f', 'http://127.0.0.1/health']
+      interval: 10s
+      timeout: 3s
+      retries: 3
+
+  teable-db:
+    image: postgres:15.4
+    restart: always
+    ports:
+      - '42345:5432'
+    volumes:
+      - teable-db:/var/lib/postgresql/data:rw
+    environment:
+      - POSTGRES_DB=${POSTGRES_DB}
+      - POSTGRES_USER=${POSTGRES_USER}
+      - POSTGRES_PASSWORD=${POSTGRES_PASSWORD}
+    # accessible on host at 127.0.0.1:42345
+    healthcheck:
+      test: ['CMD-SHELL', "sh -c 'pg_isready -U ${POSTGRES_USER} -d ${POSTGRES_DB}'"]
+      interval: 10s
+      timeout: 3s
+      retries: 3
+
+  teable-cache:
+    image: redis:7.2.4
+    restart: always
+    ports:
+      - '6379:6379'
+    volumes:
+      - teable-cache:/data:rw
+    command: redis-server --appendonly yes --requirepass ${REDIS_PASSWORD}
+    healthcheck:
+      test: ['CMD', 'redis-cli', '--raw', 'incr', 'ping']
+      interval: 10s
+      timeout: 3s
+      retries: 3
+
+volumes:
+  teable-db: {}
+  teable-data: {}
+  teable-cache: {}

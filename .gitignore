@@ -12,6 +12,7 @@ __pycache__/
 .env
 soul/.env
 nocodb/.env
+nocobase/storage/
 
 # Editor/IDE and OS
 .vscode/
