@@ -1,0 +1,7 @@
+# Add this to your .gitignore
+.env
+config/
+workspace/
+data/
+ollama/
+*.log

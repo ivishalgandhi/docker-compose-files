@@ -1,0 +1,19 @@
+# VS Code Extensions Configuration
+# TOML format for specifying extensions to install
+
+[extensions]
+# List your extensions here
+list = [
+    "ms-python.python",
+    "ms-python.vscode-pylance",
+    "dbaeumer.vscode-eslint",
+    "esbenp.prettier-vscode",
+    "eamodio.gitlens",
+    "ms-azuretools.vscode-docker",
+    # Add more extensions as needed
+]
+
+[settings]
+# Optional: Specify extension-specific settings
+python_path = "/usr/bin/python3"
+format_on_save = true

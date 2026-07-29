@@ -1,0 +1,51 @@
+services:
+  code-server:
+    image: code-server-dev:latest
+    # build:
+    #   context: .
+    #   dockerfile: Dockerfile
+    container_name: code-server-dev
+    hostname: code-server-dev
+    ports:
+      - "${PORT:-8080}:8080"
+      - "${OLLAMA_PORT:-11434}:11434"
+    environment:
+      - PASSWORD=${PASSWORD:-changeme}
+      - PUID=${PUID:-1000}
+      - PGID=${PGID:-1000}
+      - TZ=${TZ:-UTC}
+      - EXTENSIONS=${EXTENSIONS:-}
+      - GEMINI_API_KEY=${GEMINI_API_KEY:-}
+    volumes:
+      # Persistent code-server config
+      - ./data:/root/.local/share/code-server
+      # Ollama models storage
+      - ./ollama:/root/.ollama
+      # Workspace for projects
+      - ./workspace:/root/workspace
+      # Host home directory (full access to your files)
+      - ${HOME}:/host-home
+      # Extensions list
+      - ./extensions.txt:/extensions.txt:ro
+      # Docker socket for docker commands (optional - uncomment if needed)
+      # - /var/run/docker.sock:/var/run/docker.sock
+      # SSH keys (optional)
+      - ~/.ssh:/root/.ssh:ro
+      # Git config (optional)
+      - ~/.gitconfig:/root/.gitconfig:ro
+    restart: unless-stopped
+    networks:
+      - code-server-network
+    # Resource limits (lightweight configuration)
+    deploy:
+      resources:
+        limits:
+          cpus: '2.0'
+          memory: 2G
+        reservations:
+          cpus: '0.5'
+          memory: 512M
+
+networks:
+  code-server-network:
+    driver: bridge
